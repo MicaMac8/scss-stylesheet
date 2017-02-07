@@ -1,0 +1,78 @@
+// === Color palette ===
+
+$color-palette: (
+  'primary': (
+    'base': #7ac74f,
+    'light': #a1cf6b,
+    'dark': #59913a
+  ),
+  'accent': (
+    'base': #e87461,
+    'light': #f0a69a,
+    'dark': #a95547
+  ),
+  'secondary': (
+    'base': #e0c879,
+    'light': #ebdca9,
+    'dark': #b8a464
+  ),
+  'foreground': (
+    'base': #191919,
+    'light': #333,
+    'dark': #111,
+    'darker': #000
+  ),
+  'background': (
+    'base': #e9e9e9,
+    'light': #fff,
+    'dark': #ddd
+  )
+);
+
+// default variant
+$color-palette-variant: 'base' !default;
+
+// opacity settings
+$color-opacity: (
+  'light': .8, // opacity used with lighter colors
+  'dark': .4,  // opacity used with darker colors
+);
+
+
+// Function
+@function color-palette(
+  $name: 'primary',
+  $variant: $color-palette-variant,
+  $opacity: 1
+) {
+
+  $color: null;
+
+  // Get the color spectrum
+  $color-spectrum: map-get($color-palette, $name);
+
+  // Get the color variant
+  @if $color-spectrum {
+    $color: map-get($color-spectrum, $variant);
+  }
+
+  // Get the alpha setting
+  $alpha: if(type-of($opacity) == 'number', $opacity, map-get($color-opacity, $opacity));
+
+  // Set the alpha of the color
+  @if $alpha {
+    $color: rgba($color, $alpha);
+  }
+
+  @return $color;
+}
+
+// === deflault color settings ===
+// Add and make changes here for default colors settings
+// and use the color-palette() function dirrectly for specific choices
+
+// Text
+$color-text: color-palette('foreground');
+
+// Links
+$color-link: color-palette('primary');
